@@ -1,7 +1,7 @@
 /target/
 .*
 !.gitignore
-.iml
+*.iml
 
 # Compiled class file
 *.class
