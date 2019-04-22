@@ -1,1 +1,1 @@
-# HR-app
+# candidates-module

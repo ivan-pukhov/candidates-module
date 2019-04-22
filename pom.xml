@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>HR-app</artifactId>
-    <name>Application for HR's</name>
+    <artifactId>candidates-module</artifactId>
+    <name>Candidates-module for HR's application</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -97,6 +97,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
         </dependency>
     </dependencies>
 
@@ -196,6 +201,7 @@
                                 OWNER = ${app.database.username}
                                 ENCODING = 'UTF8'
                                 CONNECTION LIMIT = -1;
+                                CREATE SCHEMA candidate_module_db;
                             </sqlCommand>
                             <onError>continue</onError>
                         </configuration>
