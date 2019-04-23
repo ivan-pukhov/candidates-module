@@ -9,11 +9,9 @@ public interface EmployeeService {
 
     Employee save(Employee employee);
 
-    Employee update(Employee employee);
-
     void reset(Employee employee);
 
-    List<Employee> getEmployeesByDepartmentId(Long departmentId);
+    List<Employee> getEmployeesByDepartmentId(Employee employee);
 
     Optional<Employee> findById(Long id);
 }

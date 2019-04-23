@@ -8,8 +8,6 @@ public interface DepartmentService {
 
     Department save(Department department);
 
-    Department update(Department department);
-
     void reset(Department department);
 
     Optional<Department> findById(Long id);

@@ -8,8 +8,6 @@ public interface CandidateService {
 
     Candidate save(Candidate candidate);
 
-    Candidate update(Candidate candidate);
-
     void reset(Candidate candidate);
 
     Optional<Candidate> findById(Long id);

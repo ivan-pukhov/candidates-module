@@ -8,9 +8,7 @@ public interface AttachmentService {
 
     Attachment save(Attachment attachment);
 
-    Attachment update(Attachment attachment);
-
     void reset(Attachment attachment);
 
-    List<Attachment> getAttachmentsByCandidateId(Long candidateId);
+    List<Attachment> getAttachmentsByCandidateId(Attachment attachment);
 }

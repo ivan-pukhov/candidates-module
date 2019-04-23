@@ -9,9 +9,7 @@ public interface InterviewService {
 
     Interview save(Interview interview);
 
-    Interview update(Interview interview);
-
-    void reset(Interview employee);
+    void reset(Interview interview);
 
     List<Interview> getInterviewsByDate(LocalDateTime interviewDate);
 

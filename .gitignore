@@ -2,6 +2,7 @@
 .*
 !.gitignore
 *.iml
+.gradle
 
 # Compiled class file
 *.class

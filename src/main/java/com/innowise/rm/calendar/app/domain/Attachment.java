@@ -3,6 +3,7 @@ package com.innowise.rm.calendar.app.domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
@@ -17,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Builder
 public class Attachment extends StoredEntity {
