@@ -11,6 +11,8 @@ public interface InterviewService {
 
     void reset(Interview interview);
 
+    Interview update(Interview interview);
+
     List<Interview> getInterviewsByDate(LocalDateTime interviewDate);
 
     List<Interview> getInterviewsByCandidateId(Long candidateId);

@@ -9,6 +9,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,32 +27,35 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.employeeRepository = employeeRepository;
     }
     @Override
-    public Department save(@NonNull final Department department) {
-        Department result = department;
-        if (departmentRepository.existsById(department.getId())) {
-            result = departmentRepository.getOne(department.getId());
-        }
-        result.setDepartmentName(department.getDepartmentName());
-        updateEmployees(result, employeeRepository.findByDepartmentId(result.getId()));
-        return departmentRepository.save(result);
+    public Department save(final Department department) {
+        department.setDepartmentName(department.getDepartmentName());
+        department.setCreated(LocalDateTime.now());
+        return departmentRepository.save(department);
     }
 
     @Override
     public void reset(@NonNull final Department department) {
-
         departmentRepository.delete(department);
     }
 
     @Override
-    public Optional<Department> findById(@NonNull final Long id) {
+    public Department update(final Department department) {
+        department.setDepartmentName(department.getDepartmentName());
+        department.setUpdated(LocalDateTime.now());
+        updateEmployees(department, employeeRepository.findAllByDepartmentId(department.getId()));
+        return departmentRepository.save(department);
+    }
+
+    @Override
+    public Optional<Department> getById(final Long id) {
         Department department = departmentRepository.findById(id).orElse(null);
         return Optional.ofNullable(department);
     }
 
-    private void updateEmployees(@NonNull final Department department, @NonNull final List<Employee> employees) {
-
+    private void updateEmployees(final Department department, final List<Employee> employees) {
         for(Employee employee : employees) {
            employee.setDepartment(department);
+           employee.setUpdated(LocalDateTime.now());
         }
         employeeRepository.saveAll(employees);
     }

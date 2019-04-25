@@ -10,5 +10,7 @@ public interface DepartmentService {
 
     void reset(Department department);
 
-    Optional<Department> findById(Long id);
+    Department update(Department department);
+
+    Optional<Department> getById(Long id);
 }

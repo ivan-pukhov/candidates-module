@@ -10,6 +10,8 @@ public interface CandidateService {
 
     void reset(Candidate candidate);
 
-    Optional<Candidate> findById(Long id);
+    Candidate update(Candidate candidate);
+
+    Optional<Candidate> getById(Long id);
 
 }

@@ -10,5 +10,7 @@ public interface AttachmentService {
 
     void reset(Attachment attachment);
 
-    List<Attachment> getAttachmentsByCandidateId(Attachment attachment);
+    Attachment update(Attachment attachment);
+
+    List<Attachment> getAttachmentsByCandidateId(Long candidateId);
 }

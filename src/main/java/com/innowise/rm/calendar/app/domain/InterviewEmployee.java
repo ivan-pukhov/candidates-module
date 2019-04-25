@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,7 @@ import javax.persistence.SequenceGenerator;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Builder
+@Table(name = "interview_employee")
 public class InterviewEmployee extends StoredEntity {
 
     @Id

@@ -11,7 +11,9 @@ public interface EmployeeService {
 
     void reset(Employee employee);
 
-    List<Employee> getEmployeesByDepartmentId(Employee employee);
+    Employee update(Employee employee);
 
-    Optional<Employee> findById(Long id);
+    List<Employee> getEmployeesByDepartmentId(Long departmentId);
+
+    Optional<Employee> getById(Long id);
 }
