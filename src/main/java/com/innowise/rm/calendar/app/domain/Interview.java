@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,7 +31,6 @@ public class Interview extends StoredEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator", schema = "candidate_module_db", sequenceName = "sq_interview")
     private Long id;
-    @NonNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Candidate candidate;
     private LocalDateTime interviewDate;

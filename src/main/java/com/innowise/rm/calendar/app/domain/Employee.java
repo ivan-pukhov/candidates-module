@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +35,6 @@ public class Employee extends StoredEntity {
     @Column(nullable = false)
     private String lastName;
     private boolean deleted;
-    @NonNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Department department;
 

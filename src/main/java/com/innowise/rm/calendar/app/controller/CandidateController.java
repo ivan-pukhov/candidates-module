@@ -9,12 +9,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/candidate")
@@ -41,7 +36,7 @@ public class CandidateController {
     @PutMapping
     @ApiOperation(value = "Save Candidate", produces = "application/json")
     public ResponseEntity<CandidateDTO> save(
-            @ApiParam(value = "Json body with Candidate object", required = true)
+            @ApiParam(value = "Json body with the Candidate object", required = true)
             @RequestBody final CandidateDTO candidateDTO) {
         return ResponseEntity.ok(candidateMapper.toDTO(
                 candidateService.save(candidateMapper.fromDTO(candidateDTO))));

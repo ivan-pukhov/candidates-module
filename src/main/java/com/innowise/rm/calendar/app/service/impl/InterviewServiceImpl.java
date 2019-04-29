@@ -9,8 +9,10 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,31 +30,40 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
+    @Transactional
     public Interview save(final Interview interview) {
         interview.setCandidate(interview.getCandidate());
         interview.setInterviewDate(interview.getInterviewDate());
         interview.setStatus(interview.getStatus());
-        interview.setCreated(LocalDateTime.now());
         return interviewRepository.save(interview);
     }
 
     @Override
+    @Transactional
     public void reset(@NonNull final Interview interview) {
 
         interviewRepository.delete(interview);
     }
 
     @Override
+    @Transactional
     public Interview update(final Interview interview) {
         interview.setCandidate(interview.getCandidate());
         interview.setInterviewDate(interview.getInterviewDate());
         interview.setStatus(interview.getStatus());
-        interview.setUpdated(LocalDateTime.now());
         updateInterviewEmployees(interview, interviewEmployeeRepository.findAllByInterviewId(interview.getId()));
         return interviewRepository.save(interview);
     }
 
     @Override
+    @Transactional
+    public Optional<Interview> getById(final Long id) {
+        Interview interview = interviewRepository.findById(id).orElse(null);
+        return Optional.ofNullable(interview);
+    }
+
+    @Override
+    @Transactional
     public List<Interview> getInterviewsByDate(final LocalDateTime interviewDate) {
         return interviewRepository.findAll().stream()
                 .filter(interview1 -> interview1.getInterviewDate() == interviewDate)
@@ -60,6 +71,7 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
+    @Transactional
     public List<Interview> getInterviewsByCandidateId(final Long candidateId) {
 
         return interviewRepository.findAllByCandidateId(candidateId);
@@ -68,7 +80,6 @@ public class InterviewServiceImpl implements InterviewService {
 
         for(InterviewEmployee interviewEmployee : interviewEmployees) {
             interviewEmployee.setInterview(interview);
-            interviewEmployee.setUpdated(LocalDateTime.now());
         }
         interviewEmployeeRepository.saveAll(interviewEmployees);
     }

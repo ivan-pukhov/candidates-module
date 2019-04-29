@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +39,6 @@ public class EmployeeServiceImpl  implements EmployeeService {
         employee.setFirstName(employee.getFirstName());
         employee.setLastName(employee.getLastName());
         employee.setDepartment(employee.getDepartment());
-        employee.setCreated(LocalDateTime.now());
         return employeeRepository.save(employee);
     }
 
@@ -51,11 +49,11 @@ public class EmployeeServiceImpl  implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Employee update(final Employee employee) {
         employee.setFirstName(employee.getFirstName());
         employee.setLastName(employee.getLastName());
         employee.setDepartment(employee.getDepartment());
-        employee.setUpdated(LocalDateTime.now());
         updateInterviewEmployees(employee, interviewEmployeeRepository.findAllByEmployeeId(employee.getId()));
         return employeeRepository.save(employee);
     }
@@ -72,10 +70,10 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Employee employee = employeeRepository.findById(id).orElse(null);
         return Optional.ofNullable(employee);
     }
+
     private void updateInterviewEmployees(final Employee employee, List<InterviewEmployee> interviewEmployees) {
         for(InterviewEmployee interviewEmployee : interviewEmployees) {
             interviewEmployee.setEmployee(employee);
-            interviewEmployee.setUpdated(LocalDateTime.now());
         }
         interviewEmployeeRepository.saveAll(interviewEmployees);
     }

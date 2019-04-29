@@ -12,8 +12,6 @@ public interface InterviewEmployeeService {
 
     InterviewEmployee update(InterviewEmployee interviewEmployee);
 
-    List<InterviewEmployee> getAllFeedbackByInterviewId(Long interviewId);
-
     List<InterviewEmployee> getAllByEmployeeId(Long employeeId);
 
     List<InterviewEmployee> getAllByInterviewId(Long interviewId);

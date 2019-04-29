@@ -1,8 +1,8 @@
 package com.innowise.rm.calendar.app.domain;
 
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 abstract class StoredEntity implements Serializable {
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime created;
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDateTime updated;
 
 }

@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface InterviewEmployeeRepository extends JpaRepository<InterviewEmployee, Long> {
 
-
-    List<InterviewEmployee> findAllFeedbackByInterviewId(Long interviewId);
-
     List<InterviewEmployee> findAllByEmployeeId(Long employeeId);
 
     List<InterviewEmployee> findAllByInterviewId(Long interviewId);

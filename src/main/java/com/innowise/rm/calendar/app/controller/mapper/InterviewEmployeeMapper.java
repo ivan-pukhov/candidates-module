@@ -1,7 +1,5 @@
 package com.innowise.rm.calendar.app.controller.mapper;
 
-import com.innowise.rm.calendar.app.controller.dto.EmployeeDTO;
-import com.innowise.rm.calendar.app.controller.dto.InterviewDTO;
 import com.innowise.rm.calendar.app.controller.dto.InterviewEmployeeDTO;
 import com.innowise.rm.calendar.app.domain.InterviewEmployee;
 import org.mapstruct.InheritInverseConfiguration;
@@ -10,7 +8,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(uses = {InterviewDTO.class, EmployeeDTO.class})
+@Mapper(uses = {InterviewMapper.class, EmployeeMapper.class})
 public interface InterviewEmployeeMapper {
 
     @Mappings({})

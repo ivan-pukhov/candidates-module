@@ -9,7 +9,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,27 +26,30 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.departmentRepository = departmentRepository;
         this.employeeRepository = employeeRepository;
     }
+
     @Override
+    @Transactional
     public Department save(final Department department) {
         department.setDepartmentName(department.getDepartmentName());
-        department.setCreated(LocalDateTime.now());
         return departmentRepository.save(department);
     }
 
     @Override
+    @Transactional
     public void reset(@NonNull final Department department) {
         departmentRepository.delete(department);
     }
 
     @Override
+    @Transactional
     public Department update(final Department department) {
         department.setDepartmentName(department.getDepartmentName());
-        department.setUpdated(LocalDateTime.now());
         updateEmployees(department, employeeRepository.findAllByDepartmentId(department.getId()));
         return departmentRepository.save(department);
     }
 
     @Override
+    @Transactional
     public Optional<Department> getById(final Long id) {
         Department department = departmentRepository.findById(id).orElse(null);
         return Optional.ofNullable(department);
@@ -55,7 +58,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     private void updateEmployees(final Department department, final List<Employee> employees) {
         for(Employee employee : employees) {
            employee.setDepartment(department);
-           employee.setUpdated(LocalDateTime.now());
         }
         employeeRepository.saveAll(employees);
     }
