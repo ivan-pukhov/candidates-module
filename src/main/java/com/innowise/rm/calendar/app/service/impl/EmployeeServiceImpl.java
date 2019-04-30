@@ -42,7 +42,9 @@ public class EmployeeServiceImpl  implements EmployeeService {
     @Override
     @Transactional
     public void reset(@NonNull final  Employee employee) {
-        employeeRepository.delete(employee);
+        Employee result = employeeRepository.getOne(employee.getId());
+        result.setDeleted(true);
+        employeeRepository.save(result);
     }
 
     @Override
