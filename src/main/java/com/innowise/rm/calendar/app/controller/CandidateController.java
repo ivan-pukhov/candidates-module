@@ -28,7 +28,7 @@ public class CandidateController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Finds candidate for given identifier", produces = "application/json")
+    @ApiOperation(value = "Finds candidate for given identifier")
     public ResponseEntity<CandidateDTO> getCandidate(@PathVariable final Long id) {
         return ResponseEntity.ok(candidateMapper.toDTO(candidateService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
     }
@@ -43,7 +43,7 @@ public class CandidateController {
     }
 
     @PutMapping("/reset")
-    @ApiOperation("Reset candidate")
+    @ApiOperation(value = "Reset candidate", produces = "application/json")
     public void reset(
             @ApiParam(value = "Json body with the Candidate object", required = true)
             @RequestBody final CandidateDTO candidateDTO) {
@@ -51,7 +51,7 @@ public class CandidateController {
     }
 
     @PutMapping("/update")
-    @ApiOperation("Update candidate")
+    @ApiOperation(value = "Update candidate", produces = "application/json")
     public ResponseEntity<CandidateDTO> update(
             @ApiParam(value = "Json body with the Candidate object", required = true)
             @RequestBody final CandidateDTO candidateDTO) {

@@ -8,12 +8,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,15 +27,31 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Finds employee for given identifier", produces = "application/json")
+    @ApiOperation(value = "Finds employee for given identifier")
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final Long id) {
         return ResponseEntity.ok(employeeMapper.toDTO(employeeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
     }
 
     @GetMapping("/department/{departmentId}")
-    @ApiOperation(value = "Finds list of employees for given department identifier", produces = "application/json")
+    @ApiOperation(value = "Finds list of employees for given department identifier")
     public ResponseEntity<List<EmployeeDTO>> getEmployeeByDepartmentId(@PathVariable final Long departmentId) {
         return ResponseEntity.ok(employeeMapper.toListDTO(employeeService.getEmployeesByDepartmentId(departmentId)));
+    }
+
+    @GetMapping("/page")
+    @ApiOperation(value = "Get page of Employees")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesPage(
+            @RequestParam final int page,
+            @RequestParam final int size,
+            @RequestParam final String sortColumn,
+            @RequestParam final String sortDirection) {
+        return ResponseEntity.ok(employeeMapper.toListDTO(employeeService.getPage(page, size, sortColumn, sortDirection)));
+    }
+
+    @GetMapping("/total")
+    @ApiOperation(value = "Get count of Employees")
+    public long getTotal(){
+        return employeeService.getAll().size();
     }
 
     @PutMapping
@@ -53,7 +64,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/reset")
-    @ApiOperation("Reset Employee")
+    @ApiOperation(value = "Reset Employee", produces = "application/json")
     public void reset(
             @ApiParam(value = "Json body with the Employee object", required = true)
             @RequestBody final EmployeeDTO employeeDTO) {
@@ -61,7 +72,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/update")
-    @ApiOperation("Update Employee")
+    @ApiOperation(value = "Update Employee", produces = "application/json")
     public ResponseEntity<EmployeeDTO> update(
             @ApiParam(value = "Json body with the Employee object", required = true)
             @RequestBody final EmployeeDTO employeeDTO) {

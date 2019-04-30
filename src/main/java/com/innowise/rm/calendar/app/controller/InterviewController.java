@@ -32,7 +32,7 @@ public class InterviewController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Finds interview for given identifier", produces = "application/json")
+    @ApiOperation(value = "Finds interview for given identifier")
     public ResponseEntity<InterviewDTO> getInterview(@PathVariable final Long id) {
         return ResponseEntity.ok(interviewMapper.toDTO(interviewService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
     }
@@ -47,7 +47,7 @@ public class InterviewController {
     }
 
     @PutMapping("/reset")
-    @ApiOperation("Reset Interview")
+    @ApiOperation(value = "Reset Interview", produces = "application/json")
     public void resetInterview(
             @ApiParam(value = "Json body with the Interview object", required = true)
             @RequestBody final InterviewDTO interviewDTO) {
@@ -55,7 +55,7 @@ public class InterviewController {
     }
 
     @PutMapping("/update")
-    @ApiOperation("Update Interview")
+    @ApiOperation(value = "Update Interview", produces = "application/json")
     public ResponseEntity<InterviewDTO> updateInterview(
             @ApiParam(value = "Json body with the Interview object", required = true)
             @RequestBody final InterviewDTO interviewDTO) {
@@ -64,7 +64,7 @@ public class InterviewController {
     }
 
     @GetMapping("/candidate/{candidateId}")
-    @ApiOperation(value = "Finds list of interviews for given candidate identifier", produces = "application/json")
+    @ApiOperation(value = "Finds list of interviews for given candidate identifier")
     public ResponseEntity<List<InterviewDTO>> getInterviewsByCandidateId(@PathVariable final Long candidateId) {
         return ResponseEntity.ok(interviewMapper.toListDTO(interviewService.getInterviewsByCandidateId(candidateId)));
     }

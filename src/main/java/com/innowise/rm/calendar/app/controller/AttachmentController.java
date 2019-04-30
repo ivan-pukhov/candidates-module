@@ -33,13 +33,13 @@ public class AttachmentController {
     }
 
     @GetMapping("/candidate/{candidateId}")
-    @ApiOperation(value = "Finds list of attachments for given candidate identifier", produces = "application/json")
+    @ApiOperation(value = "Finds list of attachments for given candidate identifier")
     public ResponseEntity<List<AttachmentDTO>> getAttachmentsByCandidateId(@PathVariable final Long candidateId) {
         return ResponseEntity.ok(attachmentMapper.toListDTO(attachmentService.getAttachmentsByCandidateId(candidateId)));
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Finds attachment for given identifier", produces = "application/json")
+    @ApiOperation(value = "Finds attachment for given identifier")
     public ResponseEntity<AttachmentDTO> getAttachmentById(@PathVariable final Long id) {
         return ResponseEntity.ok(attachmentMapper.toDTO(attachmentService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
     }
@@ -54,7 +54,7 @@ public class AttachmentController {
     }
 
     @PutMapping("/reset")
-    @ApiOperation("Reset Attachment")
+    @ApiOperation(value = "Reset Attachment", produces = "application/json")
     public void reset(
             @ApiParam(value = "Json body with the Attachment object", required = true)
             @RequestBody final AttachmentDTO attachmentDTO) {
@@ -62,7 +62,7 @@ public class AttachmentController {
     }
 
     @PutMapping("/update")
-    @ApiOperation("Update Attachment")
+    @ApiOperation(value = "Update Attachment", produces = "application/json")
     public ResponseEntity<AttachmentDTO> update(
             @ApiParam(value = "Json body with the Attachment object", required = true)
             @RequestBody final AttachmentDTO attachmentDTO) {

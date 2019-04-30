@@ -30,7 +30,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Finds department for given identifier", produces = "application/json")
+    @ApiOperation(value = "Finds department for given identifier")
     public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable final Long id) {
         return ResponseEntity.ok(departmentMapper.toDTO(departmentService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
     }
@@ -45,7 +45,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/reset")
-    @ApiOperation("Reset Department")
+    @ApiOperation(value = "Reset Department", produces = "application/json")
     public void reset(
             @ApiParam(value = "Json body with the Department object", required = true)
             @RequestBody final DepartmentDTO departmentDTO) {
@@ -53,7 +53,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/update")
-    @ApiOperation("Update Department")
+    @ApiOperation(value = "Update Department", produces = "application/json")
     public ResponseEntity<DepartmentDTO> update(
             @ApiParam(value = "Json body with the Department object", required = true)
             @RequestBody final DepartmentDTO departmentDTO) {

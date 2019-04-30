@@ -16,4 +16,8 @@ public interface EmployeeService {
     List<Employee> getEmployeesByDepartmentId(Long departmentId);
 
     Optional<Employee> getById(Long id);
+
+    List<Employee> getPage(int page, int size, String sortColumn, String sortDirection);
+
+    List<Employee> getAll();
 }

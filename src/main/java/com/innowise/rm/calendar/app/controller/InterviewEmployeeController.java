@@ -40,14 +40,14 @@ public class InterviewEmployeeController {
     }
 
     @PutMapping("/reset")
-    @ApiOperation("Reset InterviewEmployee")
+    @ApiOperation(value = "Reset InterviewEmployee", produces = "application/json")
     public void reset(
             @ApiParam(value = "Json body with the InterviewEmployee object", required = true)
             @RequestBody final InterviewEmployeeDTO interviewEmployeeDTO) {
         interviewEmployeeService.reset(interviewEmployeeMapper.fromDTO(interviewEmployeeDTO));
     }
 
-    @PutMapping("/update")
+    @PutMapping(value = "/update", produces = "application/json")
     @ApiOperation("Update InterviewEmployee")
     public ResponseEntity<InterviewEmployeeDTO> update(
             @ApiParam(value = "Json body with the InterviewEmployee object", required = true)
@@ -57,13 +57,13 @@ public class InterviewEmployeeController {
     }
 
     @GetMapping("/interview/{interviewId}")
-    @ApiOperation(value = "Finds list of IntreviewEmployees for given interview identifier", produces = "application/json")
+    @ApiOperation(value = "Finds list of IntreviewEmployees for given interview identifier")
     public ResponseEntity<List<InterviewEmployeeDTO>> getAllByInterviewId(@PathVariable final Long interviewId) {
         return ResponseEntity.ok(interviewEmployeeMapper.toListDTO(interviewEmployeeService.getAllByInterviewId(interviewId)));
     }
 
     @GetMapping("/employee/{employeeId}")
-    @ApiOperation(value = "Finds list of IntreviewEmployees for given employee identifier", produces = "application/json")
+    @ApiOperation(value = "Finds list of IntreviewEmployees for given employee identifier")
     public ResponseEntity<List<InterviewEmployeeDTO>> getAllByEmployeeId(@PathVariable final Long employeeId) {
         return ResponseEntity.ok(interviewEmployeeMapper.toListDTO(interviewEmployeeService.getAllByEmployeeId(employeeId)));
     }

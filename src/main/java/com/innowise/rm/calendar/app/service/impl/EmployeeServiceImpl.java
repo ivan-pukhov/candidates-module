@@ -8,6 +8,8 @@ import com.innowise.rm.calendar.app.repository.InterviewEmployeeRepository;
 import com.innowise.rm.calendar.app.service.api.EmployeeService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -69,6 +71,24 @@ public class EmployeeServiceImpl  implements EmployeeService {
     public Optional<Employee> getById(final Long id) {
         Employee employee = employeeRepository.findById(id).orElse(null);
         return Optional.ofNullable(employee);
+    }
+
+    @Override
+    @Transactional
+    public List<Employee> getAll(){
+        return employeeRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public List<Employee> getPage(int page, int size, String sortColumn, String sortDirection) {
+        PageRequest pageRequest;
+        if (sortDirection.equals("NULL")) {
+            pageRequest = PageRequest.of(page, size);
+        } else {
+            pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortColumn);
+        }
+        return employeeRepository.findAll(pageRequest).getContent();
     }
 
     private void updateInterviewEmployees(final Employee employee, List<InterviewEmployee> interviewEmployees) {
