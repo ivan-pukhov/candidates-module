@@ -6,12 +6,20 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper
 public interface CandidateMapper {
 
     @Mappings({})
     CandidateDTO toDTO(Candidate candidate);
 
+    @Mappings({})
+    List<CandidateDTO> toListDTO(List<Candidate> candidates);
+
     @InheritInverseConfiguration
     Candidate fromDTO(CandidateDTO candidateDTO);
+
+    @InheritInverseConfiguration
+    List<Candidate> fromListDTO(List<CandidateDTO> candidateDTOs);
 }

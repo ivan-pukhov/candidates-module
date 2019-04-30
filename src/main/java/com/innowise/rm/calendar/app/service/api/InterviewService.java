@@ -20,4 +20,7 @@ public interface InterviewService {
 
     List<Interview> getInterviewsByCandidateId(Long candidateId);
 
+    List<Interview> getAll();
+
+    List<Interview> getPage(int page, int size, String sortColumn, String sortDirection);
 }

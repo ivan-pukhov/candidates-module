@@ -7,6 +7,8 @@ import com.innowise.rm.calendar.app.repository.InterviewRepository;
 import com.innowise.rm.calendar.app.service.api.InterviewService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -73,6 +75,24 @@ public class InterviewServiceImpl implements InterviewService {
     public List<Interview> getInterviewsByCandidateId(final Long candidateId) {
 
         return interviewRepository.findAllByCandidateId(candidateId);
+    }
+
+    @Override
+    @Transactional
+    public List<Interview> getAll(){
+        return interviewRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public List<Interview> getPage(int page, int size, String sortColumn, String sortDirection) {
+        PageRequest pageRequest;
+        if (sortDirection.equals("NULL")) {
+            pageRequest = PageRequest.of(page, size);
+        } else {
+            pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortColumn);
+        }
+        return interviewRepository.findAll(pageRequest).getContent();
     }
     private void updateInterviewEmployees(final Interview interview, List<InterviewEmployee> interviewEmployees) {
 

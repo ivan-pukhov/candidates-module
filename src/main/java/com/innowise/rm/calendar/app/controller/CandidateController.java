@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/candidate")
 public class CandidateController {
@@ -63,5 +65,21 @@ public class CandidateController {
     @ApiOperation("Fill database")
     public void fill() {
         candidateServiceImpl.fillDatabase();
+    }
+
+    @GetMapping("/page")
+    @ApiOperation(value = "Get page of Candidates")
+    public ResponseEntity<List<CandidateDTO>> getEmployeesPage(
+            @RequestParam final int page,
+            @RequestParam final int size,
+            @RequestParam final String sortColumn,
+            @RequestParam final String sortDirection) {
+        return ResponseEntity.ok(candidateMapper.toListDTO(candidateService.getPage(page, size, sortColumn, sortDirection)));
+    }
+
+    @GetMapping("/total")
+    @ApiOperation(value = "Get count of Candidates")
+    public long getTotal(){
+        return candidateService.getAll().size();
     }
 }

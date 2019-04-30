@@ -10,6 +10,8 @@ import com.innowise.rm.calendar.app.repository.InterviewRepository;
 import com.innowise.rm.calendar.app.service.api.CandidateService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -83,6 +85,24 @@ public class CandidateServiceImpl implements CandidateService {
     public Optional<Candidate> getById(final Long id) {
         Candidate candidate = candidateRepository.findById(id).orElse(null);
         return Optional.ofNullable(candidate);
+    }
+
+    @Override
+    @Transactional
+    public List<Candidate> getAll(){
+        return candidateRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public List<Candidate> getPage(int page, int size, String sortColumn, String sortDirection) {
+        PageRequest pageRequest;
+        if (sortDirection.equals("NULL")) {
+            pageRequest = PageRequest.of(page, size);
+        } else {
+            pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(sortDirection), sortColumn);
+        }
+        return candidateRepository.findAll(pageRequest).getContent();
     }
 
     public void fillDatabase() {

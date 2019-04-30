@@ -8,12 +8,7 @@ import io.swagger.annotations.ApiParam;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -67,5 +62,21 @@ public class InterviewController {
     @ApiOperation(value = "Finds list of interviews for given candidate identifier")
     public ResponseEntity<List<InterviewDTO>> getInterviewsByCandidateId(@PathVariable final Long candidateId) {
         return ResponseEntity.ok(interviewMapper.toListDTO(interviewService.getInterviewsByCandidateId(candidateId)));
+    }
+
+    @GetMapping("/page")
+    @ApiOperation(value = "Get page of Interviews")
+    public ResponseEntity<List<InterviewDTO>> getEmployeesPage(
+            @RequestParam final int page,
+            @RequestParam final int size,
+            @RequestParam final String sortColumn,
+            @RequestParam final String sortDirection) {
+        return ResponseEntity.ok(interviewMapper.toListDTO(interviewService.getPage(page, size, sortColumn, sortDirection)));
+    }
+
+    @GetMapping("/total")
+    @ApiOperation(value = "Get count of Interviews")
+    public long getTotal(){
+        return interviewService.getAll().size();
     }
 }
