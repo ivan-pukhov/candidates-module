@@ -32,9 +32,6 @@ public class InterviewServiceImpl implements InterviewService {
     @Override
     @Transactional
     public Interview save(final Interview interview) {
-        interview.setCandidate(interview.getCandidate());
-        interview.setInterviewDate(interview.getInterviewDate());
-        interview.setStatus(interview.getStatus());
         return interviewRepository.save(interview);
     }
 
@@ -48,11 +45,12 @@ public class InterviewServiceImpl implements InterviewService {
     @Override
     @Transactional
     public Interview update(final Interview interview) {
-        interview.setCandidate(interview.getCandidate());
-        interview.setInterviewDate(interview.getInterviewDate());
-        interview.setStatus(interview.getStatus());
-        updateInterviewEmployees(interview, interviewEmployeeRepository.findAllByInterviewId(interview.getId()));
-        return interviewRepository.save(interview);
+        Interview result = interviewRepository.getOne(interview.getId());
+        result.setCandidate(interview.getCandidate());
+        result.setInterviewDate(interview.getInterviewDate());
+        result.setStatus(interview.getStatus());
+        updateInterviewEmployees(result, interviewEmployeeRepository.findAllByInterviewId(interview.getId()));
+        return interviewRepository.save(result);
     }
 
     @Override

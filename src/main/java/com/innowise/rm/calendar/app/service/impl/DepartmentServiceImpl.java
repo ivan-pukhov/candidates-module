@@ -30,7 +30,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public Department save(final Department department) {
-        department.setDepartmentName(department.getDepartmentName());
         return departmentRepository.save(department);
     }
 
@@ -43,9 +42,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public Department update(final Department department) {
-        department.setDepartmentName(department.getDepartmentName());
-        updateEmployees(department, employeeRepository.findAllByDepartmentId(department.getId()));
-        return departmentRepository.save(department);
+        Department result = departmentRepository.getOne(department.getId());
+        if (departmentRepository.existsById(department.getId())) {
+            result = departmentRepository.getOne(department.getId());
+        }
+        result.setDepartmentName(department.getDepartmentName());
+        updateEmployees(result, employeeRepository.findAllByDepartmentId(department.getId()));
+        return departmentRepository.save(result);
     }
 
     @Override

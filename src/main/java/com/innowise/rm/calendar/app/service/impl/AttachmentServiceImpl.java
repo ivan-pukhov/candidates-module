@@ -24,9 +24,6 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     @Transactional
     public Attachment save(final Attachment attachment) {
-        attachment.setFileName(attachment.getFileName());
-        attachment.setPath(attachment.getPath());
-        attachment.setCandidate(attachment.getCandidate());
         return attachmentRepository.save(attachment);
     }
 
@@ -39,10 +36,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     @Transactional
     public Attachment update(final Attachment attachment) {
-            attachment.setFileName(attachment.getFileName());
-            attachment.setPath(attachment.getPath());
-            attachment.setCandidate(attachment.getCandidate());
-            return attachmentRepository.save(attachment);
+        Attachment result = attachmentRepository.getOne(attachment.getId());
+        result.setFileName(attachment.getFileName());
+        result.setPath(attachment.getPath());
+        result.setCandidate(attachment.getCandidate());
+        return attachmentRepository.save(result);
     }
 
     @Override

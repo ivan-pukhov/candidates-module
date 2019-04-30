@@ -6,7 +6,7 @@ import lombok.Data;
 public class AttachmentDTO {
 
     private String id;
-    private CandidateDTO candidateDTO;
+    private CandidateDTO candidate;
     private String fileName;
     private String path;
 }

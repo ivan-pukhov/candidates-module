@@ -35,7 +35,7 @@ public class Employee extends StoredEntity {
     @Column(nullable = false)
     private String lastName;
     private boolean deleted;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Department department;
 
 }

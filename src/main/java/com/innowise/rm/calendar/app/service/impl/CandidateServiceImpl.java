@@ -1,8 +1,6 @@
 package com.innowise.rm.calendar.app.service.impl;
 
-import com.innowise.rm.calendar.app.domain.Attachment;
-import com.innowise.rm.calendar.app.domain.Candidate;
-import com.innowise.rm.calendar.app.domain.Interview;
+import com.innowise.rm.calendar.app.domain.*;
 import com.innowise.rm.calendar.app.repository.AttachmentRepository;
 import com.innowise.rm.calendar.app.repository.CandidateRepository;
 import com.innowise.rm.calendar.app.repository.DepartmentRepository;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,12 +51,6 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     @Transactional
     public Candidate save(final Candidate candidate) {
-        candidate.setFirstName(candidate.getFirstName());
-        candidate.setLastName(candidate.getLastName());
-        candidate.setMail(candidate.getMail());
-        candidate.setTelephone(candidate.getTelephone());
-        candidate.setSkype(candidate.getSkype());
-        candidate.setDescription(candidate.getDescription());
         return candidateRepository.save(candidate);
     }
 
@@ -70,15 +63,19 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     @Transactional
     public Candidate update(final Candidate candidate) {
-        candidate.setFirstName(candidate.getFirstName());
-        candidate.setLastName(candidate.getLastName());
-        candidate.setMail(candidate.getMail());
-        candidate.setTelephone(candidate.getTelephone());
-        candidate.setSkype(candidate.getSkype());
-        candidate.setDescription(candidate.getDescription());
-        updateAttachments(candidate, attachmentRepository.findAllByCandidateId(candidate.getId()));
-        updateInterviews(candidate, interviewRepository.findAllByCandidateId(candidate.getId()));
-        return candidateRepository.save(candidate);
+        Candidate result = candidateRepository.getOne(candidate.getId());
+        if (candidateRepository.existsById(candidate.getId())) {
+            result = candidateRepository.getOne(candidate.getId());
+        }
+        result.setFirstName(candidate.getFirstName());
+        result.setLastName(candidate.getLastName());
+        result.setMail(candidate.getMail());
+        result.setTelephone(candidate.getTelephone());
+        result.setSkype(candidate.getSkype());
+        result.setDescription(candidate.getDescription());
+        updateAttachments(result, attachmentRepository.findAllByCandidateId(candidate.getId()));
+        updateInterviews(result, interviewRepository.findAllByCandidateId(candidate.getId()));
+        return candidateRepository.save(result);
     }
 
     @Override
@@ -100,7 +97,7 @@ public class CandidateServiceImpl implements CandidateService {
         Attachment attachment2 = Attachment.builder().fileName("abbbb").path("home/aaa/abbbb").candidate(candidate1).build();
         attachmentRepository.save(attachment1);
         attachmentRepository.save(attachment2);
-/*
+
         Department department1 = Department.builder().departmentName("Java").build();
         Department department2 = Department.builder().departmentName(".NET").build();
         Department department3 = Department.builder().departmentName("JS").build();
@@ -120,13 +117,14 @@ public class CandidateServiceImpl implements CandidateService {
         Interview interview3 = Interview.builder().candidate(candidate3).interviewDate(LocalDateTime.of(2019,4,25,15,0,0)).status("aaa").build();
         interviewRepository.save(interview1);
         interviewRepository.save(interview2);
+        interviewRepository.save(interview3);
 
         InterviewEmployee interviewEmployee1 = InterviewEmployee.builder().interview(interview1).employee(employee2).feedback("ccc").build();
         InterviewEmployee interviewEmployee2 = InterviewEmployee.builder().interview(interview2).employee(employee2).feedback("bbb").build();
         InterviewEmployee interviewEmployee3 = InterviewEmployee.builder().interview(interview3).employee(employee1).feedback("aaa").build();
         interviewEmployeeRepository.save(interviewEmployee1);
         interviewEmployeeRepository.save(interviewEmployee2);
-        interviewEmployeeRepository.save(interviewEmployee3);*/
+        interviewEmployeeRepository.save(interviewEmployee3);
     }
 
     private void updateAttachments(final Candidate candidate, final List<Attachment> attachments) {

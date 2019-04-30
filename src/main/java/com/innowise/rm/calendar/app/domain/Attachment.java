@@ -21,7 +21,7 @@ public class Attachment extends StoredEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator", schema = "candidate_module_db", sequenceName = "sq_attachment")
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Candidate candidate;
     private String fileName;
     private String path;

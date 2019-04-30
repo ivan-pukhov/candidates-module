@@ -36,9 +36,6 @@ public class EmployeeServiceImpl  implements EmployeeService {
     @Override
     @Transactional
     public Employee save(final Employee employee) {
-        employee.setFirstName(employee.getFirstName());
-        employee.setLastName(employee.getLastName());
-        employee.setDepartment(employee.getDepartment());
         return employeeRepository.save(employee);
     }
 
@@ -51,11 +48,12 @@ public class EmployeeServiceImpl  implements EmployeeService {
     @Override
     @Transactional
     public Employee update(final Employee employee) {
-        employee.setFirstName(employee.getFirstName());
-        employee.setLastName(employee.getLastName());
-        employee.setDepartment(employee.getDepartment());
-        updateInterviewEmployees(employee, interviewEmployeeRepository.findAllByEmployeeId(employee.getId()));
-        return employeeRepository.save(employee);
+        Employee result = employeeRepository.getOne(employee.getId());
+        result.setFirstName(employee.getFirstName());
+        result.setLastName(employee.getLastName());
+        result.setDepartment(employee.getDepartment());
+        updateInterviewEmployees(result, interviewEmployeeRepository.findAllByEmployeeId(employee.getId()));
+        return employeeRepository.save(result);
     }
 
     @Override

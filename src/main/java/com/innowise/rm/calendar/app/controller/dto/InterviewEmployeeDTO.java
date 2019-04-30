@@ -6,7 +6,7 @@ import lombok.Data;
 public class InterviewEmployeeDTO {
 
     private String id;
-    private EmployeeDTO employeeDTO;
-    private InterviewDTO interviewDTO;
+    private EmployeeDTO employee;
+    private InterviewDTO interview;
     private String feedback;
 }
