@@ -29,7 +29,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Finds employee for given identifier")
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final Long id) {
-        return ResponseEntity.ok(employeeMapper.toDTO(employeeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
+        return ResponseEntity.ok(employeeMapper.toDTO(employeeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found with id " + id))));
     }
 
     @GetMapping("/department/{departmentId}")

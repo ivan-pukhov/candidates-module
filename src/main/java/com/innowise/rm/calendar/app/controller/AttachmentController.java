@@ -41,7 +41,7 @@ public class AttachmentController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Finds attachment for given identifier")
     public ResponseEntity<AttachmentDTO> getAttachmentById(@PathVariable final Long id) {
-        return ResponseEntity.ok(attachmentMapper.toDTO(attachmentService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
+        return ResponseEntity.ok(attachmentMapper.toDTO(attachmentService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Attachment not found with id " + id))));
     }
 
     @PutMapping

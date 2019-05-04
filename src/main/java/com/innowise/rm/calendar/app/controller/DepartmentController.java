@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/department")
 public class DepartmentController {
@@ -32,7 +34,7 @@ public class DepartmentController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Finds department for given identifier")
     public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable final Long id) {
-        return ResponseEntity.ok(departmentMapper.toDTO(departmentService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
+        return ResponseEntity.ok(departmentMapper.toDTO(departmentService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Department not found with id " + id))));
     }
 
     @PutMapping
@@ -59,6 +61,12 @@ public class DepartmentController {
             @RequestBody final DepartmentDTO departmentDTO) {
         return ResponseEntity.ok(departmentMapper.toDTO(
                 departmentService.update(departmentMapper.fromDTO(departmentDTO))));
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all Departments")
+    public List<DepartmentDTO> getAll(){
+        return departmentMapper.toListDTO(departmentService.getAll());
     }
 
 }

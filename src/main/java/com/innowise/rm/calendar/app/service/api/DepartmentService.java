@@ -2,6 +2,7 @@ package com.innowise.rm.calendar.app.service.api;
 
 import com.innowise.rm.calendar.app.domain.Department;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DepartmentService {
@@ -13,4 +14,6 @@ public interface DepartmentService {
     Department update(Department department);
 
     Optional<Department> getById(Long id);
+
+    List<Department> getAll();
 }

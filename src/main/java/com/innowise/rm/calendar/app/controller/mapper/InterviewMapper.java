@@ -4,14 +4,15 @@ import com.innowise.rm.calendar.app.controller.dto.InterviewDTO;
 import com.innowise.rm.calendar.app.domain.Interview;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(uses = {CandidateMapper.class})
+@Mapper(uses = {CandidateMapper.class, Interview.class})
 public interface InterviewMapper {
 
-    @Mappings({})
+    @Mappings({@Mapping(source = "interviewDate", target = "interviewDateTime")})
     InterviewDTO toDTO(Interview interview);
 
     @Mappings({})

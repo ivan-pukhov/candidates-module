@@ -29,7 +29,7 @@ public class InterviewController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Finds interview for given identifier")
     public ResponseEntity<InterviewDTO> getInterview(@PathVariable final Long id) {
-        return ResponseEntity.ok(interviewMapper.toDTO(interviewService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Candidate not found with id " + id))));
+        return ResponseEntity.ok(interviewMapper.toDTO(interviewService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Interview not found with id " + id))));
     }
 
     @PutMapping

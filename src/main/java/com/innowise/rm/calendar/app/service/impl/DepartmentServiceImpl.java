@@ -56,6 +56,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         return Optional.ofNullable(department);
     }
 
+    @Override
+    public List<Department> getAll() {
+        return departmentRepository.findAll();
+    }
+
     private void updateEmployees(final Department department, final List<Employee> employees) {
         for(Employee employee : employees) {
            employee.setDepartment(department);

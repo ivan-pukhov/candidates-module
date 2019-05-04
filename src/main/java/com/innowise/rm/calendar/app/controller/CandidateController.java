@@ -82,4 +82,10 @@ public class CandidateController {
     public long getTotal(){
         return candidateService.getAll().size();
     }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all Departments")
+    public List<CandidateDTO> getAll(){
+        return candidateMapper.toListDTO(candidateService.getAll());
+    }
 }
