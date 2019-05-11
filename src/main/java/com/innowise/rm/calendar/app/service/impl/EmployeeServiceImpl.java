@@ -46,6 +46,7 @@ public class EmployeeServiceImpl  implements EmployeeService {
     public void reset(@NonNull final  Employee employee) {
         Employee result = employeeRepository.getOne(employee.getId());
         result.setDeleted(true);
+        updateInterviewEmployees(result, interviewEmployeeRepository.findAllByEmployeeId(employee.getId()));
         employeeRepository.save(result);
     }
 

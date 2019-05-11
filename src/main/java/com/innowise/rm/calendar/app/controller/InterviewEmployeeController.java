@@ -5,6 +5,7 @@ import com.innowise.rm.calendar.app.controller.mapper.InterviewEmployeeMapper;
 import com.innowise.rm.calendar.app.service.api.InterviewEmployeeService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,12 @@ public class InterviewEmployeeController {
                                        final InterviewEmployeeMapper interviewEmployeeMapper) {
         this.interviewEmployeeService = interviewEmployeeService;
         this.interviewEmployeeMapper = interviewEmployeeMapper;
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Finds interviewEmployee for given identifier")
+    public ResponseEntity<InterviewEmployeeDTO> getById(@PathVariable final Long id) {
+        return ResponseEntity.ok(interviewEmployeeMapper.toDTO(interviewEmployeeService.getById(id).orElseThrow(() -> new ResourceNotFoundException("Interview not found with id " + id))));
     }
 
     @PutMapping
@@ -57,14 +64,19 @@ public class InterviewEmployeeController {
     }
 
     @GetMapping("/interview/{interviewId}")
-    @ApiOperation(value = "Finds list of IntreviewEmployees for given interview identifier")
+    @ApiOperation(value = "Finds list of  InterviewEmployees for given interview identifier")
     public ResponseEntity<List<InterviewEmployeeDTO>> getAllByInterviewId(@PathVariable final Long interviewId) {
         return ResponseEntity.ok(interviewEmployeeMapper.toListDTO(interviewEmployeeService.getAllByInterviewId(interviewId)));
     }
 
     @GetMapping("/employee/{employeeId}")
-    @ApiOperation(value = "Finds list of IntreviewEmployees for given employee identifier")
+    @ApiOperation(value = "Finds list of InterviewEmployees for given employee identifier")
     public ResponseEntity<List<InterviewEmployeeDTO>> getAllByEmployeeId(@PathVariable final Long employeeId) {
         return ResponseEntity.ok(interviewEmployeeMapper.toListDTO(interviewEmployeeService.getAllByEmployeeId(employeeId)));
+    }
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all Interviews")
+    public List<InterviewEmployeeDTO> getAll(){
+        return interviewEmployeeMapper.toListDTO(interviewEmployeeService.getAll());
     }
 }

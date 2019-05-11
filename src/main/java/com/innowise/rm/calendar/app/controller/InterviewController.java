@@ -66,7 +66,7 @@ public class InterviewController {
 
     @GetMapping("/page")
     @ApiOperation(value = "Get page of Interviews")
-    public ResponseEntity<List<InterviewDTO>> getEmployeesPage(
+    public ResponseEntity<List<InterviewDTO>> getInterviewsPage(
             @RequestParam final int page,
             @RequestParam final int size,
             @RequestParam final String sortColumn,
@@ -78,5 +78,11 @@ public class InterviewController {
     @ApiOperation(value = "Get count of Interviews")
     public long getTotal(){
         return interviewService.getAll().size();
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all Interviews")
+    public List<InterviewDTO> getAll(){
+        return interviewMapper.toListDTO(interviewService.getAll());
     }
 }

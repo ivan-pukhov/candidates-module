@@ -54,6 +54,12 @@ public class EmployeeController {
         return employeeService.getAll().size();
     }
 
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all Employees")
+    public List<EmployeeDTO> getAll(){
+        return employeeMapper.toListDTO(employeeService.getAll());
+    }
+
     @PutMapping
     @ApiOperation(value = "Save Employee", produces = "application/json")
     public ResponseEntity<EmployeeDTO> save(

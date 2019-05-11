@@ -1,5 +1,6 @@
 package com.innowise.rm.calendar.app.service.impl;
 
+import com.innowise.rm.calendar.app.domain.Employee;
 import com.innowise.rm.calendar.app.domain.InterviewEmployee;
 import com.innowise.rm.calendar.app.repository.InterviewEmployeeRepository;
 import com.innowise.rm.calendar.app.service.api.InterviewEmployeeService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InterviewEmployeeServiceImpl implements InterviewEmployeeService {
@@ -18,6 +20,12 @@ public class InterviewEmployeeServiceImpl implements InterviewEmployeeService {
     @Autowired
     public InterviewEmployeeServiceImpl(final InterviewEmployeeRepository interviewEmployeeRepository) {
         this.interviewEmployeeRepository = interviewEmployeeRepository;
+    }
+
+    @Override
+    public Optional<InterviewEmployee> getById(Long id) {
+        InterviewEmployee interviewEmployee = interviewEmployeeRepository.findById(id).orElse(null);
+        return Optional.ofNullable(interviewEmployee);
     }
 
     @Override
@@ -53,5 +61,11 @@ public class InterviewEmployeeServiceImpl implements InterviewEmployeeService {
     @Transactional
     public List<InterviewEmployee> getAllByInterviewId(final Long interviewId) {
         return interviewEmployeeRepository.findAllByInterviewId(interviewId);
+    }
+
+    @Override
+    @Transactional
+    public List<InterviewEmployee> getAll(){
+        return interviewEmployeeRepository.findAll();
     }
 }

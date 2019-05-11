@@ -15,7 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -145,7 +149,7 @@ public class AttachmentControllerTest {
         Assert.assertEquals(HttpStatus.OK, attachmentDTOResponseEntity.getStatusCode());
     }
 
-    private void buildAttachment(){
+    private void buildAttachment() {
         candidate = Candidate.builder().firstName("Aleksei").lastName("Petrou").mail("abc@mail.ru").skype("1111").description("aaa").telephone("3752912345550").build();
         candidateRepository.save(candidate);
         attachment = Attachment.builder().fileName("abc").path("home/aaa/abc").candidate(candidate).build();
