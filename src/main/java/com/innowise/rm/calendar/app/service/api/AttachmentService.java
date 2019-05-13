@@ -1,6 +1,9 @@
 package com.innowise.rm.calendar.app.service.api;
 
 import com.innowise.rm.calendar.app.domain.Attachment;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +19,8 @@ public interface AttachmentService {
     Optional<Attachment> getById(Long id);
 
     List<Attachment> getAttachmentsByCandidateId(Long candidateId);
+
+    Attachment create(MultipartFile file, Attachment attachment);
+
+    ResponseEntity<ByteArrayResource> downloadById(Long id);
 }

@@ -1,20 +1,21 @@
 package com.innowise.rm.calendar.app.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.innowise.rm.calendar.app.controller.dto.AttachmentDTO;
 import com.innowise.rm.calendar.app.controller.mapper.AttachmentMapper;
+import com.innowise.rm.calendar.app.controller.mapper.CandidateMapper;
+import com.innowise.rm.calendar.app.domain.Attachment;
 import com.innowise.rm.calendar.app.service.api.AttachmentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,11 +26,15 @@ public class AttachmentController {
 
     private AttachmentMapper attachmentMapper;
 
+    private CandidateMapper candidateMapper;
+
     @Autowired
     public AttachmentController(final AttachmentService attachmentService,
-                                final AttachmentMapper attachmentMapper) {
+                                final AttachmentMapper attachmentMapper,
+                                final CandidateMapper candidateMapper) {
         this.attachmentService = attachmentService;
         this.attachmentMapper = attachmentMapper;
+        this.candidateMapper = candidateMapper;
     }
 
     @GetMapping("/candidate/{candidateId}")
@@ -68,5 +73,24 @@ public class AttachmentController {
             @RequestBody final AttachmentDTO attachmentDTO) {
         return ResponseEntity.ok(attachmentMapper.toDTO(
                 attachmentService.update(attachmentMapper.fromDTO(attachmentDTO))));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<AttachmentDTO> addAttachment( @RequestParam("attachment") String attachment,
+                                @RequestParam("uploadFile") MultipartFile file) {
+        Attachment attachment1 = new Attachment();
+        attachment1.setFileName(file.getOriginalFilename());
+        try {
+            AttachmentDTO attachment2 = new ObjectMapper().readValue(attachment, AttachmentDTO.class);
+            attachment1.setCandidate(candidateMapper.fromDTO(attachment2.getCandidate()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(attachmentMapper.toDTO(attachmentService.create(file, attachment1)));
+    }
+
+    @GetMapping("/download/{id}")
+    ResponseEntity<ByteArrayResource> downloadAttachmentById(@PathVariable Long id) {
+        return attachmentService.downloadById(id);
     }
 }
